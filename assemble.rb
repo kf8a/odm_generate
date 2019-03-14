@@ -94,10 +94,12 @@ CSV.open('data_values.csv', 'w') do |csv|
     vars.each do |key, value|
       flag = flags.first { |x| x[:variable_name] == 'Flag_' + key }[1] || ''
       # variable_id = my_vars.first { |x| x[:variable_name] == key.to_s }[key.to_s]
-      variable_id = my_mapping.first { |x| x[:variable_name] = key.to_s }[:variable_code]
+      my_mappings = my_mapping.first { |x| x[:variable_name] = key.to_s }
+      variable_id = my_mappings[:variable_code]
+      method_id = my_mappings[:method_code]
       csv << [nil, value.to_s, datetime.to_s.tr('T', ' '), -5,
               datetime.new_offset(0).to_s.tr('T', ' '),
-              station_id, variable_id, 0, my_source, qualifier(flag)]
+              station_id, variable_id, method_id, my_source, qualifier(flag)]
     end
   end
 end
